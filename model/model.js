@@ -10,7 +10,8 @@ var schema = new mongoose.Schema({
     },
     content : {
         type : String,
-    }
+    },
+    createdAt : { type: Date, required: true, default: Date.now }
 })
 
 const postdb = mongoose.model('postsdb', schema);
