@@ -14,14 +14,14 @@ exports.homeRoutes = (req, res) => {
     
 }
 
-exports.add_item = (req, res) =>{
-    res.render('add_item');
+exports.add_post = (req, res) =>{
+    res.render('add_post');
 }
 
-exports.update_item = (req, res) =>{
+exports.update_post = (req, res) =>{
     axios.get('http://localhost:3000/api/posts', { params : { id : req.query.id }})
-        .then(function(itemdata){
-            res.render("update_item", { item : itemdata.data})
+        .then(function(postdata){
+            res.render("update_post", { post : postdata.data})
         })
         .catch(err =>{
             res.send(err);

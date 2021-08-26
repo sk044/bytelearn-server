@@ -13,6 +13,6 @@ var schema = new mongoose.Schema({
     }
 })
 
-const itemdb = mongoose.model('postsdb', schema);
+const postdb = mongoose.model('postsdb', schema);
 
-module.exports = itemdb;
+module.exports = postdb;

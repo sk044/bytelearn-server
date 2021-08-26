@@ -1,6 +1,6 @@
-var itemdb = require('../model/model');
+var postdb = require('../model/model');
 
-// create and save new item
+// create and save new post
 exports.create = (req,res)=>{
     // validate request
     if(!req.body){
@@ -8,19 +8,19 @@ exports.create = (req,res)=>{
         return;
     }
 
-    // new item
-    const item = new itemdb({
+    // new post
+    const post = new postdb({
         title : req.body.title,
         categories : req.body.categories,
         content: req.body.content,
     })
 
-    // save item in the database
-    item
-        .save(item)
+    // save post in the database
+    post
+        .save(post)
         .then(data => {
             //res.send(data)
-            res.redirect('/add-item');
+            res.redirect('/add-post');
         })
         .catch(err =>{
             res.status(500).send({
@@ -30,38 +30,38 @@ exports.create = (req,res)=>{
 
 }
 
-// retrieve and return all posts/ retrive and return a single item
+// retrieve and return all posts/ retrive and return a single post
 exports.find = (req, res)=>{
 
     if(req.query.id){
         const id = req.query.id;
 
-        itemdb.findById(id)
+        postdb.findById(id)
             .then(data =>{
                 if(!data){
-                    res.status(404).send({ message : "Not found item with id "+ id})
+                    res.status(404).send({ message : "Not found post with id "+ id})
                 }else{
                     res.send(data)
                 }
             })
             .catch(err =>{
-                res.status(500).send({ message: "Erro retrieving item with id " + id})
+                res.status(500).send({ message: "Erro retrieving post with id " + id})
             })
 
     }else{
-        itemdb.find()
-            .then(item => {
-                res.send(item)
+        postdb.find()
+            .then(post => {
+                res.send(post)
             })
             .catch(err => {
-                res.status(500).send({ message : err.message || "Error Occurred while retriving item information" })
+                res.status(500).send({ message : err.message || "Error Occurred while retriving post information" })
             })
     }
 
     
 }
 
-// Update a new idetified item by item id
+// Update a new idetified post by post id
 exports.update = (req, res)=>{
     if(!req.body){
         return res
@@ -70,36 +70,36 @@ exports.update = (req, res)=>{
     }
 
     const id = req.params.id;
-    itemdb.findByIdAndUpdate(id, req.body, { useFindAndModify: false})
+    postdb.findByIdAndUpdate(id, req.body, { useFindAndModify: false})
         .then(data => {
             if(!data){
-                res.status(404).send({ message : `Cannot Update item with ${id}. Maybe item not found!`})
+                res.status(404).send({ message : `Cannot Update post with ${id}. Maybe post not found!`})
             }else{
                 res.send(data)
             }
         })
         .catch(err =>{
-            res.status(500).send({ message : "Error Update item information"})
+            res.status(500).send({ message : "Error Update post information"})
         })
 }
 
-// Delete a item with specified item id in the request
+// Delete a post with specified post id in the request
 exports.delete = (req, res)=>{
     const id = req.params.id;
 
-    itemdb.findByIdAndDelete(id)
+    postdb.findByIdAndDelete(id)
         .then(data => {
             if(!data){
                 res.status(404).send({ message : `Cannot Delete with id ${id}. Maybe id is wrong`})
             }else{
                 res.send({
-                    message : "item was deleted successfully!"
+                    message : "post was deleted successfully!"
                 })
             }
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Could not delete item with id=" + id
+                message: "Could not delete post with id=" + id
             });
         });
 }
